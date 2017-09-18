@@ -9,7 +9,7 @@ def GPA_from_letter_grades(letterGrades):
     Computes a floating point GPA for a student given a list of their letter grades.
     """
     letter2number = {'A':4.0, 'B':3.0, 'C':2.0, 'D':1.0, 'F':0.0}
-    return np.mean([letter2number[letter] for letter in letterGrades])
+    return np.mean([letter2number[letter] for letter in letterGrades if letter != '0'])
 
 # First, find the file.
 
