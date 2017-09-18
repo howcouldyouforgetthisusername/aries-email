@@ -1,8 +1,6 @@
 import slate
 import re
 import numpy as np
-from pprint import pprint
-import Tkinter
 
 # Assumptions: Precisely one student per page. No +'s or -'s in grades.
 
@@ -24,8 +22,6 @@ students = []
 for page in raw:
     # First find the name of the student.
     name = re.search(r"Progress Report For (.*) \(", page).group(1)
-    if name == "Ansar Abdusemed Bahrun":
-        continue
     # Then grab the section containing their grades.
     # The section contraining the grades begins with "Overall".
     gradeSection = re.search(r"Overall(.*?)Date", page, re.S).group(1)
@@ -45,25 +41,10 @@ for page in raw:
                      'letterGrades' : letterGrades,
                      'GPA' : GPA_from_letter_grades(letterGrades)})
 
-pprint(students)
-
 # Display results.
-
-#top = Tkinter.Tk()
-#text = Tkinter.Text(top)
 output = ""
 for student in sorted(students, key=lambda x: -x['GPA']):
     output += student['name'] + ': ' + '{:.2f}'.format(student['GPA']) + '\n'
 output += "Class Average GPA: " + str(np.mean([student['GPA'] for student in students]))
 
-r = Tkinter.Tk()
-r.withdraw()
-r.clipboard_clear()
-r.clipboard_append(output)
-r.update() # now it stays on the clipboard after the window is closed
-r.destroy()
-
-#text.insert(Tkinter.INSERT, output)
-#text.pack()
-#text.configure(state="disabled")
-#top.mainloop()
+print output
